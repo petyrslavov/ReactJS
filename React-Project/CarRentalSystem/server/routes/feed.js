@@ -4,5 +4,6 @@ const isAuth = require('../middleware/is-auth');
 
 router.get('/cars', feedController.getCars);
 router.post('/car/create', feedController.createCar);
+router.post('/rent/create', feedController.rentPost);
 
 module.exports = router;

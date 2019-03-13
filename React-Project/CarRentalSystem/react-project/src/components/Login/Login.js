@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App/App.css'
 
 class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             username: null,
@@ -11,6 +11,7 @@ class Login extends Component {
 
         this.handleChange = props.handleChange.bind(this);
     }
+
     render() {
         return (
             <div className="Login">

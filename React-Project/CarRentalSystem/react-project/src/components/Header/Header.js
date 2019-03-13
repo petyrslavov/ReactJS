@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import './Header.css'
 
 class Header extends Component {
+    logout() {
+        localStorage.clear();
+        this.props.history.push("/");
+    }
+
     render() {
         return (
             <header>
@@ -11,14 +16,14 @@ class Header extends Component {
                         <li className="align-left first">
                             <Link to="/">Home</Link>
                         </li>
-                        <li className="align-left">
-                            <Link to="/car/all">View Avaliable Cars</Link>
-                        </li>
                         {
                             this.props.username ?
                                 (<ul>
                                     <li className="align-left">
-                                        <Link to="/user/rents">My Rented Cars</Link>
+                                        <Link to="/cars">View Avaliable Cars</Link>
+                                    </li>
+                                    <li className="align-left">
+                                        <Link to="/rented">My Rented Cars</Link>
                                     </li>
                                     {
                                         this.props.isAdmin ?
@@ -29,9 +34,7 @@ class Header extends Component {
                                             null
                                     }
                                     <li className="align-right">
-                                        <form id="logout-form" action="/user/logout" method="POST">
-                                            <a href="#">Logout</a>
-                                        </form>
+                                        <Link to="/" onClick={this.logout}>Logout</Link>
                                     </li>
                                     <li className="align-right">
                                         <span>Hello, {this.props.username}</span>
