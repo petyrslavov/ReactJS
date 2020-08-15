@@ -1,0 +1,20 @@
+/* 
+  form#register-form,
+  form#login-form{
+    margin: 0 auto;
+    padding: 10px;
+    width: 300px;
+    display: inline-block;
+  }
+  
+  input {
+    display: block;
+    width: 100%;
+    margin: 30px 0;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    text-align: center;
+    transition: 0.1s all ease-in-out;
+    color: #607D8B;
+  }
+   */

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
+import '../Rent/Rent.css'
 import Home from '../Home/Home'
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
