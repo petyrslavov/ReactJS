@@ -6,7 +6,7 @@ class Home extends Component {
         return (
             <main>
                 <h1>Welcome to our Car Renting System Web-App!</h1>
-                <img src="https://g.foolcdn.com/editorial/images/492310/orange-fury-mustang-gt-coupe-with-performance-3.jpg"/>
+                <img alt="car" src="https://g.foolcdn.com/editorial/images/492310/orange-fury-mustang-gt-coupe-with-performance-3.jpg"/>
             </main>
         );
     }

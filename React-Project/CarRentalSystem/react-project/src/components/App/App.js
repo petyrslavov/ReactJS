@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, withRouter, Link, Redirect, Switch } from 'react-router-dom';
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,6 +13,7 @@ import Create from '../Create/Create';
 import Cars from '../Cars/Cars'
 import Rent from '../Rent/Rent'
 import RentedCars from '../Rent/RentedCars';
+import Edit from '../Edit/Edit';
 
 class App extends Component {
   constructor(props) {
@@ -78,7 +79,6 @@ class App extends Component {
   }
 
   handleCreateSubmit(e, data) {
-    e.preventDefault();
     fetch('http://localhost:9999/feed/car/create', {
       method: 'post',
       body: JSON.stringify(data),
@@ -87,15 +87,42 @@ class App extends Component {
       .then(() => {
         this.props.history.push("/cars");
       })
+
   }
-  
+
+  handleDelete(e, id) {
+    e.preventDefault();
+    fetch(`http://localhost:9999/feed/delete/${id}`, {
+      method: 'post',
+    })
+      .then(() => {
+        this.props.history.push("/cars");
+      })
+
+  }
+
+  handleEditSubmit(e, data, id) {
+    e.preventDefault();
+    fetch(`http://localhost:9999/feed/edit/${id}`, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(rawData => rawData.json())
+      .then(() => {
+        this.props.history.push("/cars");
+      })
+  }
+
   handleRentCreateSubmit(e, data) {
     e.preventDefault();
-    console.log(data);
     fetch('http://localhost:9999/feed/rent/create', {
       method: 'post',
       body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+      }
     }).then(rawData => rawData.json())
       .then(responseBody => {
         if (responseBody.car) {
@@ -139,11 +166,36 @@ class App extends Component {
                 />
           }
             path="/create" />
-          <Route render={(props) =>
-            <Cars
-              {...props}
-              cars={this.state.cars} />}
-            path="/cars" />
+          <Route render={
+            (props) =>
+              this.state.isAdmin ?
+                <Edit
+                  {...props}
+                  handleEditSubmit={this.handleEditSubmit.bind(this)}
+                  handleChange={this.handleChange}
+                  cars={this.state.cars}
+                /> :
+                <Redirect
+                  to={{
+                    pathname: "/login"
+                  }}
+                />
+          }
+            path="/edit/:id" />
+          <Route render={
+            (props) =>
+              this.state.username ?
+                <Cars
+                  {...props}
+                  cars={this.state.cars}
+                /> :
+                <Redirect
+                  to={{
+                    pathname: "/login"
+                  }}
+                />
+          }
+            path="/cars/" />
           <Route render={(props) =>
             <Rent
               {...props}
@@ -153,10 +205,18 @@ class App extends Component {
             />}
             path="/rent/:id"
           />
-          <Route render={(props) =>
-            <RentedCars
-              {...props}
-            />}
+          <Route render={
+            (props) =>
+              this.state.username ?
+                <RentedCars
+                  {...props}
+                /> :
+                <Redirect
+                  to={{
+                    pathname: "/login"
+                  }}
+                />
+          }
             path="/rented" />
           <Route render={(props) =>
             <Register

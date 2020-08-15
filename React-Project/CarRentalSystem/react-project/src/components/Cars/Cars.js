@@ -14,7 +14,7 @@ class Cars extends Component {
                         <Link className="rent-btn" to={"/rent/" + car._id}>Rent</Link>
                         {
                             localStorage.getItem("username") === "Admin" ?
-                                <Link className="edit-btn" to="/car/edit/{{_id}}">Edit</Link>
+                                <Link className="edit-btn" to={"/edit/" + car._id}>Edit</Link>
                                 :
                                 null
                         }

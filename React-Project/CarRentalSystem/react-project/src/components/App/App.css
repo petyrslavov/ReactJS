@@ -128,9 +128,10 @@ form#login-form,
 form#search-form,
 form.car-form,
 form#rent-form {
+  margin: 0 auto;
   padding: 10px;
+  padding-top: 50px;
   width: 300px;
-  display: inline-block;
 }
 
 input {

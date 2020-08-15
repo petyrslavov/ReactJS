@@ -134,16 +134,6 @@
     float: right;
   }
   
-  form#register-form,
-  form#login-form,
-  form#search-form,
-  form.car-form,
-  form#rent-form {
-    padding: 10px;
-    width: 300px;
-    display: inline-block;
-  }
-  
   input {
     display: block;
     width: 100%;

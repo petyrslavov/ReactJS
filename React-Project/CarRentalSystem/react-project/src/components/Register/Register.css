@@ -1,9 +1,6 @@
-
-  form#register-form,
-  form#login-form,
-  form#search-form,
-  form.car-form,
-  form#rent-form {
+/* 
+  form#register-form{
+    margin: 0 auto;
     padding: 10px;
     width: 300px;
     display: inline-block;
@@ -19,4 +16,4 @@
     transition: 0.1s all ease-in-out;
     color: #607D8B;
   }
-  
+   */
