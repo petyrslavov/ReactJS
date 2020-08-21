@@ -17,7 +17,7 @@ class Header extends Component {
                             <Link to="/">Home</Link>
                         </li>
                         {
-                            this.props.username ?
+                            localStorage.getItem("id") ?
                                 (<ul>
                                     <li className="align-left">
                                         <Link to="/cars">View Avaliable Cars</Link>

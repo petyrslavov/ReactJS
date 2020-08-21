@@ -59,14 +59,16 @@ class App extends Component {
       headers: { 'Content-Type': 'application/json' }
     }).then(rawData => rawData.json())
       .then(responseBody => {
-        if (responseBody.username) {
+        if (responseBody.userId) {
           this.setState({
+            id: responseBody.userId,
             username: responseBody.username,
             isAdmin: responseBody.isAdmin
           });
           toast.success(`Welcome, ${responseBody.username}`, {
             closeButton: false
           })
+          localStorage.setItem('id', responseBody.userId);
           localStorage.setItem('username', responseBody.username);
           localStorage.setItem('isAdmin', responseBody.isAdmin);
           this.props.history.push("/");
@@ -105,14 +107,22 @@ class App extends Component {
   handleEditSubmit(e, data, id) {
     e.preventDefault();
     fetch(`http://localhost:9999/feed/edit/${id}`, {
-      method: 'post',
+      method: 'put',
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       }
     }).then(rawData => rawData.json())
-      .then(() => {
+    .then(responseBody => {
+        this.setState({
+          model: responseBody.data.model,
+          image: responseBody.data.image,
+          pricePerDay: responseBody.data.pricePerDay
+        });
         this.props.history.push("/cars");
+        toast.success(`Car edited successfuly`, {
+          closeButton: false
+        })
       })
   }
 
@@ -126,14 +136,15 @@ class App extends Component {
       }
     }).then(rawData => rawData.json())
       .then(responseBody => {
-        if (responseBody.car) {
+        debugger;
+        if (responseBody.data.car) {
           this.setState({
             car: responseBody.car,
             user: responseBody.username,
             days: responseBody.days
           });
           this.props.history.push("/rented");
-          toast.success(`Rent created successfuly}`, {
+          toast.success(`Rent created successfuly`, {
             closeButton: false
           })
         }

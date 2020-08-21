@@ -9,7 +9,7 @@ class Rent extends Component {
         this.state = {
            days: null,
            car: car,
-           user: localStorage.getItem('username')
+           userId: localStorage.getItem('id')
         }
 
         this.handleChange = props.handleChange.bind(this);
@@ -25,7 +25,8 @@ class Rent extends Component {
                 </div>
                 <form id="rent-form" onSubmit={(e) => this.props.handleRentCreateSubmit(e, this.state)}>
                     <label htmlFor="days">Rent days:</label>
-                    <input type="number" onChange={this.handleChange} name="days" id="days" step="1" defaultValue="1" />
+                    <input onChange={this.handleChange} type="number" name="days" id="days"/>
+                    {/* <input type="number" onChange={this.handleChange} name="days" id="days" step="1" defaultValue="1" /> */}
                     <input className="submit-btn" type="submit" value="Rent" />
                 </form>
             </div>

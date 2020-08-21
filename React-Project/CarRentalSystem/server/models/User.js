@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   firstName: { type: mongoose.Schema.Types.String },
   lastName: { type: mongoose.Schema.Types.String },
   salt: { type: mongoose.Schema.Types.String, required: true },
-  roles: [{ type: mongoose.Schema.Types.String }]
+  roles: [{ type: mongoose.Schema.Types.String }],
+  rentedCars:[{type: mongoose.Schema.Types.ObjectId, ref: 'Car'}]
 });
 
 userSchema.method({

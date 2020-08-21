@@ -1,5 +1,6 @@
 const Car = require('../models/Car');
 const Rent = require('../models/Rent');
+const User = require('../models/User');
 
 module.exports = {
   getCars: (req, res) => {
@@ -36,29 +37,36 @@ module.exports = {
       });
   },
   createRent: (req, res) => {
-    const car = req.params.id;
-    const user = req.user._id;
-    const days = Number(req.body.days);
+    let carId = req.body.car._id;
+    let userId = req.body.userId;
+    let RentedCarInfoObj = {}   
 
-    Rent.create({ days, user, car })
-      .then(() => {
-        Car.findById(car)
-          .then((c) => {
-            c.isRented = true;
+    Car.findById(carId).then(foundCar => {
+        User.findById(userId).then(user => {
+            user.rentedCars.push(foundCar._id)
+            user.save().then(()=>{
+                foundCar.isRented = true
+                foundCar.save().then(()=>{
+                    RentedCarInfoObj={
+                        car: foundCar,
+                        user: user,
+                        days: +req.body.days
+                    }
 
-            return c.save();
-          })
-          .then((createdRent) => {
-            res.status(200).json({
-              message: 'Rent created successfully.',
-              data: createdRent
+                    Rent.create(RentedCarInfoObj).then((createdRent) => {
+                              res.status(200).json({
+                                success: true,
+                                message: 'Rent created successfully.',
+                                data: createdRent
+                              })
+                              res.redirect('/')
+                            })
+                })
             })
-          })
-      })
-      .catch(console.error);
+        })
+    })  
   },
-  editPost: (req, res) => {
-    if (req.user.roles.indexOf('Admin') > -1) {
+  editCar: (req, res) => {
       const carId = req.params.id
       const carObj = req.body
 
@@ -98,14 +106,9 @@ module.exports = {
             message: message
           })
         })
-    } else {
-      return res.status(200).json({
-        success: false,
-        message: 'Invalid credentials!'
-      })
-    }
+    
   }, 
-  deletePost: (req, res) => {
+  deleteCar: (req, res) => {
     const id = req.params.id
     if (req.user.roles.indexOf('Admin') > -1) {
       Car
