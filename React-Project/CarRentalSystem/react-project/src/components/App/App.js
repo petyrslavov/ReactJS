@@ -29,10 +29,12 @@ class App extends Component {
   componentDidMount() {
     const isAdmin = localStorage.getItem('isAdmin') === "true";
     const username = localStorage.getItem('username');
+    const userId = localStorage.getItem('id');
     if (username) {
       this.setState({
         username: username,
-        isAdmin: isAdmin
+        isAdmin: isAdmin,
+        userId: userId
       })
     }
 
@@ -41,6 +43,14 @@ class App extends Component {
       .then(body => {
         this.setState({
           cars: body.cars
+        });
+      })
+
+      fetch(`http://localhost:9999/feed/my-rents/${userId}`)
+      .then(rawData => rawData.json())
+      .then(body => {
+        this.setState({
+          rents: body.rents
         });
       })
   }
@@ -136,12 +146,11 @@ class App extends Component {
       }
     }).then(rawData => rawData.json())
       .then(responseBody => {
-        debugger;
         if (responseBody.data.car) {
           this.setState({
-            car: responseBody.car,
-            user: responseBody.username,
-            days: responseBody.days
+            car: responseBody.data.car,
+            user: responseBody.data.user,
+            days: responseBody.data.days
           });
           this.props.history.push("/rented");
           toast.success(`Rent created successfuly`, {
@@ -222,6 +231,7 @@ class App extends Component {
               this.state.username ?
                 <RentedCars
                   {...props}
+                  rents={this.state.rents}
                 /> :
                 <Redirect
                   to={{

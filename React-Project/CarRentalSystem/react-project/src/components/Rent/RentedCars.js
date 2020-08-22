@@ -12,11 +12,13 @@ class RentedCars extends Component {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>model</td>
-                    <td>pricePerDay &euro;</td>
-                    <td>expiresOn</td>
+                {this.props.rents.map(rent => 
+                <tr key={rent._id}>
+                    <td>Model: {rent.car.model}</td>
+                    <td>Price per day: {rent.car.pricePerDay} &euro;</td>
+                     <td>Expires in: {rent.days} days</td>
                 </tr>
+                    )}
             </tbody>
         </table>
         );
