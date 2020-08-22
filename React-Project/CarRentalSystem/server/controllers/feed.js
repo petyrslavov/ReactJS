@@ -36,6 +36,23 @@ module.exports = {
         next(error);
       });
   },
+
+  getUserRents: (req, res) => {
+    const userId = req.params.id;
+    Rent.find({ user : userId}).populate('car')
+      .then((rents) => {
+        res
+          .status(200)
+          .json({ message: 'Fetched rents successfully.', rents });
+      })
+      .catch((error) => {
+        if (!error.statusCode) {
+          error.statusCode = 500;
+        }
+        next(error);
+      });
+  },
+
   createRent: (req, res) => {
     let carId = req.body.car._id;
     let userId = req.body.userId;
